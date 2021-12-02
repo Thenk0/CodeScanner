@@ -1,13 +1,12 @@
 package com.mycompany.app;
 
-/**
- * Hello world!
- *
- */
+import com.mycompany.app.SimpleGUI;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	SimpleGUI app = new SimpleGUI();
+		app.setVisible(true);
     }
 }

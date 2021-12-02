@@ -66,10 +66,6 @@
 					<version>3.8.0</version>
 				</plugin>
 				<plugin>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.0.2</version>
-				</plugin>
-				<plugin>
 					<artifactId>maven-install-plugin</artifactId>
 					<version>2.5.2</version>
 				</plugin>
@@ -94,6 +90,26 @@
 						<useSystemClassLoader>false</useSystemClassLoader>
 					</configuration>
 				</plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                    <configuration>
+                        <mainClass>com.mycompany.app.App</mainClass>
+                    </configuration>
+                </plugin>
+                <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-jar-plugin</artifactId>
+	                <version>2.4</version>
+	                <configuration>
+	                  <archive>
+	                    <manifest>
+		                <mainClass>com.mycompany.app.App</mainClass>
+	                    </manifest>
+	                  </archive>
+	                </configuration>
+                </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

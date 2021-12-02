@@ -36,7 +36,22 @@ public class ScannerRunnable implements Runnable {
 			try {
 				this.works.setVisible(true);
 				this.works.setText("Waiting");
-				cameraInput = this.camera.readData();
+				try {
+					cameraInput = this.camera.readData();					
+				} catch (Exception SocketTimedOutException) {
+					camera.disconnect();
+					this.works.setText("Connection failed: Reconnecting");
+					while (true) {
+						try {
+							camera.connect();
+							Thread.sleep(500);
+							cameraInput = this.camera.readData();	
+							break;
+						} catch (Exception e) {
+							camera.disconnect();
+						}
+					}
+				}
 				if (!cameraInput.equals("")) {
 					allCounter++;
 					this.works.setText("Works");
