@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class CsvWriter {
 	private String fileName;
+	private String fileFolder = "";
 	private String fullFileName;
 	private Integer allRecordAmount = 0;
 	private Integer recordAmount = 0;
@@ -33,6 +34,17 @@ public class CsvWriter {
 			e.printStackTrace();
 		}
 	}
+	public CsvWriter(String fileName, String fileFolder) {
+		this.setFileFolder(fileFolder);
+		this.setFileName(fileName);
+		this.setFile(this.getFullFileName());
+		try {
+			this.setFileWriter(this.getFile());
+			this.setFileHashMap(this.generateFileMap());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String getFileName() {
 		return this.fileName;
@@ -40,7 +52,20 @@ public class CsvWriter {
 
 	public void setFileName(String filename) {
 		this.fileName = filename;
-		this.fullFileName = String.format("%s%s.%s", filename, this.postfix, this.extention);
+		this.fullFileName = String.format("%s%s%s.%s",this.getFileFolder(), filename, this.postfix, this.extention);
+	}
+	
+	public void setFileFolder(String fileFolder) {
+		File file = new File(fileFolder);
+		if (file.exists() && file.isDirectory()) {
+			this.fileFolder = fileFolder;
+			return;
+		}
+		this.fileFolder = "";
+	}
+	
+	public String getFileFolder() {
+		return this.fileFolder;
 	}
 
 	public String getFullFileName() {
@@ -172,6 +197,7 @@ public class CsvWriter {
 				hashMap.put(value, true);
 			}
 		}
+		br.close();
 		this.getFileHashMap().putAll(hashMap);
 	}
 
@@ -189,7 +215,7 @@ public class CsvWriter {
 		CsvWriter csvWriter = new CsvWriter("results");
 		while (true) {
 			for (int i = 0; i < 100020; i++) {
-				Boolean result = csvWriter.writeToFile(String.valueOf(i));
+				csvWriter.writeToFile(String.valueOf(i));
 			}
 			break;
 		}
